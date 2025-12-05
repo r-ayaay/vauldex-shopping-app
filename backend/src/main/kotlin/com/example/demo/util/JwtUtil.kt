@@ -18,16 +18,17 @@ class JwtUtil(
 
     private val expirationMs = 1000 * 60 * 60 * 24L // 24 hours
 
-    fun generateToken(username: String): String {
+    fun generateToken(userId: Long): String {
         val now = Date()
         val expiry = Date(now.time + expirationMs)
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(userId.toString()) // store the ID in `sub` claim
             .setIssuedAt(now)
             .setExpiration(expiry)
             .signWith(SignatureAlgorithm.HS256, secret.toByteArray())
             .compact()
     }
+
 
     fun extractUsername(token: String): String {
         return getClaims(token).subject
