@@ -190,6 +190,12 @@
   .relative {
     position: relative;
   }
+  .sticky {
+    position: sticky;
+  }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
@@ -346,6 +352,9 @@
   }
   .py-2\.5 {
     padding-block: calc(var(--spacing) * 2.5);
+  }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
   }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);
