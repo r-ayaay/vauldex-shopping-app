@@ -31,19 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-interface User {
-  id: number
-  username: string
-}
-
-const auth = useAuthStore()
-
-const router = useRouter()
-const route = useRoute()
 const { username, onLogout } = defineProps<{ username: string; onLogout: () => void }>()
 
 const userDropdownOpen = ref(false)
