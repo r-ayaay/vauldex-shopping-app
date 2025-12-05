@@ -33,7 +33,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import Button from './Button.vue'
 import { useAuthStore } from '@/stores/auth'
 
 interface User {
