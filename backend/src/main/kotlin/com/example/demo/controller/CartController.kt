@@ -67,7 +67,7 @@ class CartController(private val cartService: CartService, private val authentic
     @GetMapping("/count")
     fun getCartItemCount(): Int {
         val userId = authenticatedUser.getUserId()
-        val cart = cartService.getCartForUser(userId)
+        val cart = cartService.getCartDTOForUser(userId)
         return cart.items.sumOf { it.quantity }
     }
 }
