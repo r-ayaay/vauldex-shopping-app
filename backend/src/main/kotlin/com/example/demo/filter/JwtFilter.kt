@@ -15,8 +15,7 @@ import kotlin.text.substring
 
 @Component
 class JwtFilter(
-    private val jwtUtil: JwtUtil,
-    private val userDetailsService: CustomUserDetailsService
+    private val jwtUtil: JwtUtil
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -25,18 +24,24 @@ class JwtFilter(
         filterChain: FilterChain
     ) {
         val authHeader = request.getHeader("Authorization")
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             val token = authHeader.substring(7)
+
             if (jwtUtil.validateToken(token)) {
-                val username = jwtUtil.extractUsername(token)
-                val userDetails = userDetailsService.loadUserByUsername(username)
+                val userId = jwtUtil.extractUserId(token)
+
                 val auth = UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.authorities
+                    userId,   // <-- principal is now userId
+                    null,
+                    emptyList() // no roles for now
                 )
+
                 auth.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = auth
             }
         }
+
         filterChain.doFilter(request, response)
     }
 }

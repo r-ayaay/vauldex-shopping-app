@@ -29,6 +29,10 @@ class JwtUtil(
             .compact()
     }
 
+    fun extractUserId(token: String): Long {
+        return getClaims(token).subject.toLong()
+    }
+
 
     fun extractUsername(token: String): String {
         return getClaims(token).subject
