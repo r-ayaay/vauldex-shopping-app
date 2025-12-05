@@ -2,13 +2,36 @@ package com.example.demo.controller
 
 import com.example.demo.dto.CartResponseDTO
 import com.example.demo.service.CartService
+import com.example.demo.util.AuthenticatedUser
 import org.springframework.web.bind.annotation.*
 
 
 //Handles fetching cart, adding, updating, removing items, and getting total.
 @RestController
 @RequestMapping("/api/cart")
-class CartController(private val cartService: CartService) {
+class CartController(private val cartService: CartService, private val authenticatedUser: AuthenticatedUser) {
+
+    @GetMapping
+    fun getCart(): CartResponseDTO {
+        val userId = authenticatedUser.getUserId()
+        return cartService.getCartDTOForUser(userId)
+    }
+
+    @PostMapping("/add")
+    fun addToCart(
+        @RequestParam productId: Long,
+        @RequestParam quantity: Int
+    ) {
+        val userId = authenticatedUser.getUserId()
+        cartService.addProductToCart(userId, productId, quantity)
+    }
+
+    @GetMapping("/total")
+    fun getTotal(): Double {
+        val userId = authenticatedUser.getUserId()
+        val cart = cartService.getCartForUser(userId)
+        return cartService.calculateTotal(cart)
+    }
 
     @GetMapping("/{userId}")
     fun getCart(@PathVariable userId: Long): CartResponseDTO {

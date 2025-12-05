@@ -38,7 +38,7 @@ class AuthController(
                 .body(mapOf("error" to "Invalid credentials"))
         }
 
-        val token = jwtUtil.generateToken(user.username)
+        val token = jwtUtil.generateToken(user.id)
         return ResponseEntity.ok(
             mapOf(
                 "token" to token,
@@ -46,6 +46,7 @@ class AuthController(
                 "user_id" to user.id
             )
         )
+
     }
 }
 
