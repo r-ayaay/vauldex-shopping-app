@@ -14,7 +14,7 @@ class OrderController(private val orderService: OrderService) {
         @PathVariable userId: Long,
         @RequestBody request: CheckoutRequest
     ): OrderResponseDTO {
-        
+
         return orderService.checkoutDTO(userId, request.cartItemIds)
     }
 

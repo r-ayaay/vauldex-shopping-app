@@ -61,6 +61,7 @@ class CartService(
                 productId = item.product.id,
                 productName = item.product.name,
                 productPrice = item.product.price,
+                productImageUrl = item.product.images.firstOrNull()?.url,
                 quantity = item.quantity
             )
         }

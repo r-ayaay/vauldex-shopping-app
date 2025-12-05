@@ -5,5 +5,6 @@ data class CartItemDTO(
     val productId: Long,
     val productName: String,
     val productPrice: Double,
-    val quantity: Int
+    val quantity: Int,
+    val productImageUrl: String?
 )
