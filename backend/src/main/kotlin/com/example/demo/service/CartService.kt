@@ -1,5 +1,7 @@
 package com.example.demo.service
 
+import com.example.demo.dto.CartItemDTO
+import com.example.demo.dto.CartResponseDTO
 import com.example.demo.entity.Cart
 import com.example.demo.entity.CartItem
 import com.example.demo.entity.User
@@ -50,4 +52,24 @@ class CartService(
     fun calculateTotal(cart: Cart): Double {
         return cart.items.sumOf { it.product.price * it.quantity }
     }
+
+    fun getCartDTOForUser(userId: Long): CartResponseDTO {
+        val cart = getCartForUser(userId)
+        val itemsDTO = cart.items.map { item ->
+            CartItemDTO(
+                id = item.id,
+                productId = item.product.id,
+                productName = item.product.name,
+                productPrice = item.product.price,
+                quantity = item.quantity
+            )
+        }
+        val total = calculateTotal(cart)
+        return CartResponseDTO(
+            id = cart.id,
+            items = itemsDTO,
+            total = total
+        )
+    }
+
 }

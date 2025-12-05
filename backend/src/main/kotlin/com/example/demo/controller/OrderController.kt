@@ -1,5 +1,7 @@
 package com.example.demo.controller
 
+import com.example.demo.dto.CheckoutRequest
+import com.example.demo.dto.OrderResponseDTO
 import com.example.demo.service.OrderService
 import org.springframework.web.bind.annotation.*
 
@@ -8,11 +10,20 @@ import org.springframework.web.bind.annotation.*
 class OrderController(private val orderService: OrderService) {
 
     @PostMapping("/checkout/{userId}")
-    fun checkout(@PathVariable userId: Long, @RequestBody cartItemIds: List<Long>) =
-        orderService.checkout(userId, cartItemIds)
+    fun checkout(
+        @PathVariable userId: Long,
+        @RequestBody request: CheckoutRequest
+    ): OrderResponseDTO {
+        
+        return orderService.checkoutDTO(userId, request.cartItemIds)
+    }
+
 
     @GetMapping("/{userId}")
-    fun getUserOrders(@PathVariable userId: Long) = orderService.getOrdersForUser(userId)
+    fun getUserOrders(@PathVariable userId: Long): List<OrderResponseDTO> {
+        return orderService.getOrdersDTOForUser(userId)
+    }
+
 
     @DeleteMapping("/cancel/{orderId}")
     fun cancelOrder(@PathVariable orderId: Long) {

@@ -1,5 +1,6 @@
 package com.example.demo.controller
 
+import com.example.demo.dto.CartResponseDTO
 import com.example.demo.service.CartService
 import org.springframework.web.bind.annotation.*
 
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.*
 class CartController(private val cartService: CartService) {
 
     @GetMapping("/{userId}")
-    fun getCart(@PathVariable userId: Long) = cartService.getCartForUser(userId)
+    fun getCart(@PathVariable userId: Long): CartResponseDTO {
+        return cartService.getCartDTOForUser(userId)
+    }
+
 
     @PostMapping("/{userId}/add")
     fun addToCart(

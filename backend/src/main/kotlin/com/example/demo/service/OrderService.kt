@@ -1,5 +1,7 @@
 package com.example.demo.service
 
+import com.example.demo.dto.OrderItemDTO
+import com.example.demo.dto.OrderResponseDTO
 import com.example.demo.entity.Order
 import com.example.demo.entity.OrderItem
 import com.example.demo.entity.User
@@ -53,4 +55,59 @@ class OrderService(
 
         orderRepository.delete(order)
     }
+
+    fun getOrdersDTOForUser(userId: Long): List<OrderResponseDTO> {
+        val orders = getOrdersForUser(userId)
+        return orders.map { order ->
+            val itemsDTO = order.items.map { item ->
+                OrderItemDTO(
+                    id = item.id,
+                    productId = item.product.id,
+                    productName = item.product.name,
+                    productPrice = item.product.price,
+                    quantity = item.quantity
+                )
+            }
+            OrderResponseDTO(
+                id = order.id,
+                createdAt = order.createdAt,
+                totalAmount = order.totalAmount,
+                items = itemsDTO
+            )
+        }
+    }
+
+    @Transactional
+    fun checkoutDTO(userId: Long, cartItemIds: List<Long>): OrderResponseDTO {
+        val cart = cartRepository.findByUserId(userId) ?: throw RuntimeException("Cart not found")
+        val itemsToCheckout = cartItemRepository.findAllById(cartItemIds)
+
+        val totalAmount = itemsToCheckout.sumOf { it.product.price * it.quantity }
+        val order = orderRepository.save(Order(user = User(id = userId, username = "", password = ""), totalAmount = totalAmount))
+
+        itemsToCheckout.forEach { item ->
+            val orderItem = OrderItem(order = order, product = item.product, quantity = item.quantity)
+            orderItemRepository.save(orderItem)
+            cartItemRepository.delete(item)
+        }
+
+        // Map to DTO
+        val itemsDTO = order.items.map { item ->
+            OrderItemDTO(
+                id = item.id,
+                productId = item.product.id,
+                productName = item.product.name,
+                productPrice = item.product.price,
+                quantity = item.quantity
+            )
+        }
+
+        return OrderResponseDTO(
+            id = order.id,
+            createdAt = order.createdAt,
+            totalAmount = order.totalAmount,
+            items = itemsDTO
+        )
+    }
+
 }
