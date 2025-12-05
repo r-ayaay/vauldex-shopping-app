@@ -42,15 +42,6 @@ class JwtUtil(
         }
     }
 
-    fun getUserIdFromToken(token: String): Long? {
-        return try {
-            val claims: Claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).body
-            claims["user_id"].toString().toLong()
-        } catch (e: Exception) {
-            null
-        }
-    }
-
     private fun getClaims(token: String): Claims {
         return Jwts.parser()
             .setSigningKey(secret.toByteArray())
