@@ -6,21 +6,25 @@
 
     <!-- User dropdown -->
     <div class="relative" ref="userDropdownRef">
-      <Button
+      <button
         :label="username"
         @click="toggleUserDropdown"
-        classNames="flex items-center gap-2 px-3 py-1.5 text-[#1f1f21] rounded-md hover:bg-[#1f1f21] hover:text-white focus:ring-2 focus:ring-[#1C274C]/40 transition-all font-medium"
-      ></Button>
+        class="flex items-center gap-2 px-3 py-1.5 text-[#1f1f21] rounded-md hover:bg-[#1f1f21] hover:text-white focus:ring-2 focus:ring-[#1C274C]/40 transition-all font-medium cursor-pointer"
+      >
+        {{ username }}
+      </button>
 
       <div
         v-if="userDropdownOpen"
         class="absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-md z-50 min-w-[160px] overflow-hidden"
       >
-        <Button
+        <button
           label="Logout"
           @click="logoutHandler"
-          classNames="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C]"
-        ></Button>
+          class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C]"
+        >
+          Logout
+        </button>
       </div>
     </div>
   </header>
