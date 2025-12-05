@@ -13,5 +13,12 @@ data class User(
 
     @Column(nullable = false)
     val password: String,
+
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL])
+    val cart: Cart? = null,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
+    val orders: List<Order> = mutableListOf()
+
 )
 
