@@ -369,6 +369,9 @@
   .text-\[\#1C274C\] {
     color: #1C274C;
   }
+  .text-\[\#1f1f21\] {
+    color: #1f1f21;
+  }
   .text-blue-600 {
     color: var(--color-blue-600);
   }
@@ -409,6 +412,13 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .hover\:bg-\[\#1f1f21\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #1f1f21;
+      }
+    }
+  }
   .hover\:bg-\[\#f0f2f8\] {
     &:hover {
       @media (hover: hover) {
@@ -434,6 +444,13 @@
     &:hover {
       @media (hover: hover) {
         color: #1C274C;
+      }
+    }
+  }
+  .hover\:text-white {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-white);
       }
     }
   }

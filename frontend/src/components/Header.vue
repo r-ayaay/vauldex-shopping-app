@@ -1,7 +1,7 @@
 <template>
-  <header class="flex bg-[#1f1f21] items-center justify-between h-16 px-6 md:px-8 shadow-sm">
+  <header class="flex items-center justify-between h-16 px-6 md:px-8 shadow-sm">
     <router-link to="/">
-      <h1 class="text-2xl font-semibold text-white pr-8 cursor-pointer">keyboredom</h1>
+      <h1 class="text-2xl font-semibold text-[#1f1f21] pr-8 cursor-pointer">keyboredom</h1>
     </router-link>
 
     <!-- User dropdown -->
@@ -9,7 +9,7 @@
       <Button
         :label="username"
         @click="toggleUserDropdown"
-        classNames="flex items-center gap-2 px-3 py-1.5 text-white rounded-md hover:bg-white hover:text-[#1C274C] focus:ring-2 focus:ring-[#1C274C]/40 transition-all font-medium"
+        classNames="flex items-center gap-2 px-3 py-1.5 text-[#1f1f21] rounded-md hover:bg-[#1f1f21] hover:text-white focus:ring-2 focus:ring-[#1C274C]/40 transition-all font-medium"
       ></Button>
 
       <div
