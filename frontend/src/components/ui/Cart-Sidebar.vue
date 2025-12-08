@@ -99,7 +99,6 @@ async function checkoutSelected() {
     await api.post('/api/cart/checkout', { cartItemIds: selectedIds.value }).then(() => {
       console.log('Checkout successful for items:', selectedIds.value)
       selectedIds.value = [] // reset selection after checkout
-      fetchCartItems()
     })
   } catch (err) {
     console.error('Error updating cart item:', err)
