@@ -52,9 +52,20 @@ class OrderService(
     fun cancelOrder(orderId: Long) {
         val order = orderRepository.findById(orderId).orElseThrow { RuntimeException("Order not found") }
 
-        if (order.createdAt.isAfter(LocalDateTime.now().minusDays(7))) {
+        if (order.createdAt.isBefore(LocalDateTime.now().minusDays(7))) {
             throw RuntimeException("Orders can only be cancelled if created at least 7 days ago")
         }
+
+        val event = WebSocketEvent(
+            type = "ORDER_CANCEL",
+            payload = mapOf(
+                "orderId" to order.id,
+            )
+        )
+
+
+        socketHandler.broadcast(event)
+
 
         orderRepository.delete(order)
     }
