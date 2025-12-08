@@ -8,6 +8,8 @@ import com.example.demo.entity.User
 import com.example.demo.repository.CartItemRepository
 import com.example.demo.repository.CartRepository
 import com.example.demo.repository.ProductRepository
+import com.example.demo.ws.SocketHandler
+import com.example.demo.ws.WebSocketEvent
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 class CartService(
     private val cartRepository: CartRepository,
     private val cartItemRepository: CartItemRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val socketHandler: SocketHandler
 ) {
 
     fun getCartForUser(userId: Long): Cart {
@@ -35,6 +38,16 @@ class CartService(
             val newItem = CartItem(cart = cart, product = product, quantity = quantity)
             cartItemRepository.save(newItem)
         }
+
+        val event = WebSocketEvent(
+            type = "ITEM_ADDED",
+            payload = mapOf(
+                "product" to product.name,
+                "quantity" to quantity
+            )
+        )
+
+        socketHandler.broadcast(event)
     }
 
     @Transactional
