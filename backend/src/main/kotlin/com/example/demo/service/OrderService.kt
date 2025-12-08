@@ -57,7 +57,7 @@ class OrderService(
         }
 
         val event = WebSocketEvent(
-            type = "ORDER_CANCEL",
+            type = "ORDER_CANCELLED",
             payload = mapOf(
                 "orderId" to order.id,
             )
