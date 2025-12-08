@@ -11,7 +11,7 @@
     <div class="flex justify-between">
       <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
 
-      <div class="font-semibold mb-4">Total: {{ cart?.total }}</div>
+      <div class="font-semibold mb-4">Total: {{ selectedTotal }}</div>
     </div>
 
     <div>
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import api from '@/api/axios'
 
 defineProps<{ open: boolean }>()
@@ -78,6 +78,13 @@ async function fetchCartItems() {
     console.error(err)
   }
 }
+
+const selectedTotal = computed(() => {
+  if (!cart.value) return 0
+  return cart.value.items
+    .filter((item) => selectedIds.value.includes(item.id))
+    .reduce((sum, item) => sum + item.productPrice * item.quantity, 0)
+})
 
 const selectedIds = ref<number[]>([])
 
