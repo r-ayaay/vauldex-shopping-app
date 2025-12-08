@@ -1,7 +1,10 @@
 package com.example.demo.controller
 
 import com.example.demo.dto.CartResponseDTO
+import com.example.demo.dto.CheckoutRequest
+import com.example.demo.dto.OrderResponseDTO
 import com.example.demo.service.CartService
+import com.example.demo.service.OrderService
 import com.example.demo.util.AuthenticatedUser
 import org.springframework.web.bind.annotation.*
 
@@ -9,7 +12,10 @@ import org.springframework.web.bind.annotation.*
 //Handles fetching cart, adding, updating, removing items, and getting total.
 @RestController
 @RequestMapping("/api/cart")
-class CartController(private val cartService: CartService, private val authenticatedUser: AuthenticatedUser) {
+class CartController(
+    private val cartService: CartService,
+    private val authenticatedUser: AuthenticatedUser,
+    private val orderService: OrderService) {
 
     @GetMapping
     fun getCart(): CartResponseDTO {
@@ -69,5 +75,11 @@ class CartController(private val cartService: CartService, private val authentic
         val userId = authenticatedUser.getUserId()
         val cart = cartService.getCartDTOForUser(userId)
         return cart.items.sumOf { it.quantity }
+    }
+
+    @PostMapping("/checkout")
+    fun checkout(@RequestBody request: CheckoutRequest): OrderResponseDTO {
+        val userId = authenticatedUser.getUserId()
+        return orderService.checkoutDTO(userId, request.cartItemIds)
     }
 }
