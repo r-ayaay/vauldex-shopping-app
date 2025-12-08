@@ -31,7 +31,11 @@
 
           <div class="flex justify-between">
             <div>{{ item.productPrice }}</div>
-            <div>{{ item.quantity }}</div>
+            <input
+              type="number"
+              v-model="item.quantity"
+              @change="updateCartItemQuantity(item.id, item.quantity)"
+            />
           </div>
         </div>
       </div>
@@ -99,6 +103,17 @@ function checkoutSelected() {
       fetchCartItems()
     })
     .catch((err) => console.error(err))
+}
+
+async function updateCartItemQuantity(cartItemId: number, quantity: number) {
+  try {
+    await api.put(`/api/cart/update/${cartItemId}`, null, {
+      params: { quantity }, // sends ?quantity=xx
+    })
+    console.log(`Updated cart item ${cartItemId} to quantity ${quantity}`)
+  } catch (err) {
+    console.error('Error updating cart item:', err)
+  }
 }
 
 onMounted(() => {
