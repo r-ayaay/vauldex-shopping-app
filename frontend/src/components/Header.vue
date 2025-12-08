@@ -79,7 +79,7 @@ function handleClickOutside(e: MouseEvent) {
 
 const productCount = ref<number>(0)
 
-const fetchProducts = async () => {
+const fetchProductCount = async () => {
   try {
     const res = await api.get<number>('/api/cart/count')
     productCount.value = res.data
@@ -89,7 +89,7 @@ const fetchProducts = async () => {
   }
 }
 
-onMounted(fetchProducts)
+onMounted(fetchProductCount)
 
 // Lifecycle
 onMounted(() => {
@@ -107,7 +107,7 @@ watch(
   (events) => {
     const latest = events[events.length - 1]
     if (latest?.type === 'ITEM_ADDED') {
-      fetchProducts()
+      fetchProductCount()
     }
   },
 )
