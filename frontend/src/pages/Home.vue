@@ -1,4 +1,5 @@
 <template>
+  <h1 class="text-2xl font-bold mb-4">Products</h1>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
     <ProductCard v-for="product in products" :key="product.id" v-bind="product" />
   </div>
