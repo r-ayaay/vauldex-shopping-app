@@ -6,6 +6,7 @@ import AppLayout from '../components/layouts/AppLayout.vue'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import HomeView from '../pages/Home.vue'
+import Orders from '../pages/Orders.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,8 +27,8 @@ const router = createRouter({
       path: '/',
       component: AppLayout,
       children: [
-        { path: '', name: 'overview', component: HomeView },
-        // { path: 'history', name: 'history', component: HistoryView },
+        { path: '', name: 'home', component: HomeView },
+        { path: 'orders', name: 'orders', component: Orders },
       ],
 
       meta: { requiresAuth: true },
