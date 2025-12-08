@@ -110,10 +110,11 @@ class OrderService(
         val event = WebSocketEvent(
             type = "CART_CHECKOUT",
             payload = mapOf(
-                "Cart ID" to cart.id,
-                "Items" to itemsToCheckout
+                "cartId" to cart.id,
+                "checkedOutItemIds" to cartItemIds
             )
         )
+
 
         socketHandler.broadcast(event)
 
