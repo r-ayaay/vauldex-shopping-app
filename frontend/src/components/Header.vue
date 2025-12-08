@@ -106,7 +106,7 @@ watch(
   () => wsStore.events,
   (events) => {
     const latest = events[events.length - 1]
-    if (latest?.type === 'ITEM_ADDED') {
+    if (latest?.type === 'ITEM_ADDED' || latest?.type === 'CART_CHECKOUT') {
       fetchProductCount()
     }
   },

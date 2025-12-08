@@ -11,6 +11,8 @@ import com.example.demo.repository.CartRepository
 import com.example.demo.repository.OrderItemRepository
 import com.example.demo.repository.OrderRepository
 import com.example.demo.repository.ProductRepository
+import com.example.demo.ws.SocketHandler
+import com.example.demo.ws.WebSocketEvent
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,7 +24,8 @@ class OrderService(
     private val orderItemRepository: OrderItemRepository,
     private val cartItemRepository: CartItemRepository,
     private val cartRepository: CartRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val socketHandler: SocketHandler
 ) {
 
     @Transactional
@@ -103,6 +106,16 @@ class OrderService(
                 quantity = item.quantity
             )
         }
+
+        val event = WebSocketEvent(
+            type = "CART_CHECKOUT",
+            payload = mapOf(
+                "Cart ID" to cart.id,
+                "Items" to itemsToCheckout
+            )
+        )
+
+        socketHandler.broadcast(event)
 
         return OrderResponseDTO(
             id = order.id,
