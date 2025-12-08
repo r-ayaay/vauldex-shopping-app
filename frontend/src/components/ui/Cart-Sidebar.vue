@@ -8,28 +8,42 @@
       Close
     </button>
 
-    <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
+    <div class="flex justify-between">
+      <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
+
+      <div class="font-semibold mb-4">Total: {{ cart?.total }}</div>
+    </div>
 
     <div>
       <div
-        v-for="items in cart?.items"
-        :key="items.id"
-        :name="items.productName"
+        v-for="item in cart?.items"
+        :key="item.id"
+        :name="item.productName"
         class="flex gap-4 mb-4 items-center bg-gray-50 p-2 rounded-lg"
       >
-        <img :src="items.productImageUrl" alt="Product Image" class="w-32 h-32 object-cover mb-2" />
+        <input type="checkbox" v-model="selectedIds" :value="item.id" class="h-5 w-5" />
+
+        <img :src="item.productImageUrl" alt="Product Image" class="w-32 h-32 object-cover mb-2" />
         <div class="w-full">
           <h3 class="text-lg font-medium mb-2">
-            {{ items.productName }}
+            {{ item.productName }}
           </h3>
 
           <div class="flex justify-between">
-            <div>{{ items.productPrice }}</div>
-            <div>{{ items.quantity }}</div>
+            <div>{{ item.productPrice }}</div>
+            <div>{{ item.quantity }}</div>
           </div>
         </div>
       </div>
     </div>
+
+    <button
+      class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+      @click="checkoutSelected"
+      :disabled="selectedIds.length === 0"
+    >
+      Checkout Selected
+    </button>
   </div>
 </template>
 
@@ -63,6 +77,21 @@ async function fetchCartItems() {
   } catch (err) {
     console.error(err)
   }
+}
+
+const selectedIds = ref<number[]>([])
+
+function checkoutSelected() {
+  if (selectedIds.value.length === 0) return
+
+  api
+    .post('/api/cart/checkout', { cartItemIds: selectedIds.value })
+    .then(() => {
+      console.log('Checkout successful for items:', selectedIds.value)
+      selectedIds.value = [] // reset selection after checkout
+      fetchCartItems()
+    })
+    .catch((err) => console.error(err))
 }
 
 onMounted(() => {
