@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 border rounded-2xl p-4">
     <h2 class="text-lg font-semibold">{{ name }}</h2>
-    <img :src="images[0]" alt="product image" class="w-full h-60 object-cover mb-2" />
+    <img :src="images[0]" alt="product image" class="w-full h-60 object-contain mb-2" />
     <p class="text-gray-600">{{ description }}</p>
     <p class="font-bold mt-1">${{ price.toFixed(2) }}</p>
     <div class="mt-2 flex items-center gap-2">

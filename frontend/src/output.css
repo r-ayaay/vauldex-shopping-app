@@ -561,6 +561,9 @@
   .stroke-\[\#1C274C\] {
     stroke: #1C274C;
   }
+  .object-contain {
+    object-fit: contain;
+  }
   .object-cover {
     object-fit: cover;
   }
