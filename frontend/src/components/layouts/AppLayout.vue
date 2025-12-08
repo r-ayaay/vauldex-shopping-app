@@ -1,6 +1,8 @@
 <template>
   <!-- Sticky header -->
-  <Header :username="username" @logout="logout" class="sticky top-0 z-50"></Header>
+  <div class="sticky top-0 z-30">
+    <Header :username="username" @logout="logout"></Header>
+  </div>
 
   <!-- Main content -->
   <main class="px-6 md:px-8 pt-6">

@@ -1,7 +1,7 @@
 <template>
   <!-- Sidebar -->
   <div
-    class="absolute right-0 top-0 h-full w-md bg-white shadow-xl p-4 transform transition-transform duration-300 z-50"
+    class="absolute right-0 top-0 h-screen w-md bg-white shadow-xl p-4 transform transition-transform duration-300 z-50"
     :class="open ? 'translate-x-0' : 'translate-x-full'"
   >
     <button class="mb-4 text-gray-500 hover:text-black text-right" @click="$emit('close')">
@@ -92,17 +92,18 @@ const selectedTotal = computed(() => {
 
 const selectedIds = ref<number[]>([])
 
-function checkoutSelected() {
+async function checkoutSelected() {
   if (selectedIds.value.length === 0) return
 
-  api
-    .post('/api/cart/checkout', { cartItemIds: selectedIds.value })
-    .then(() => {
+  try {
+    await api.post('/api/cart/checkout', { cartItemIds: selectedIds.value }).then(() => {
       console.log('Checkout successful for items:', selectedIds.value)
       selectedIds.value = [] // reset selection after checkout
       fetchCartItems()
     })
-    .catch((err) => console.error(err))
+  } catch (err) {
+    console.error('Error updating cart item:', err)
+  }
 }
 
 async function updateCartItemQuantity(cartItemId: number, quantity: number) {

@@ -252,6 +252,9 @@
   .right-0 {
     right: calc(var(--spacing) * 0);
   }
+  .z-30 {
+    z-index: 30;
+  }
   .z-40 {
     z-index: 40;
   }
@@ -329,6 +332,9 @@
   }
   .h-full {
     height: 100%;
+  }
+  .h-screen {
+    height: 100vh;
   }
   .min-h-screen {
     min-height: 100vh;
