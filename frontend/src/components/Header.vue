@@ -5,7 +5,7 @@
     </router-link>
 
     <div class="flex gap-4 items-center">
-      <div class="relative inline-block">
+      <div class="relative inline-block" @click="openCartSidebar">
         <cartIcon class="w-6 h-6 text-[#1f1f21] cursor-pointer" />
         <span
           v-if="productCount > 0"
@@ -14,6 +14,7 @@
           {{ productCount }}
         </span>
       </div>
+
       <!-- User dropdown -->
       <div class="relative" ref="userDropdownRef">
         <button
@@ -39,6 +40,17 @@
       </div>
     </div>
   </header>
+
+  <Transition name="fade">
+    <div
+      v-if="showCartSidebar"
+      class="fixed inset-0 bg-black/40 z-40"
+      @click="closeCartSidebar"
+    ></div>
+  </Transition>
+
+  <!-- Sidebar -->
+  <CartSidebar :open="showCartSidebar" @close="closeCartSidebar" />
 </template>
 
 <script setup lang="ts">
@@ -86,6 +98,7 @@ onMounted(() => {
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
 
 import { useWebSocketStore } from '@/stores/ws'
+import CartSidebar from './ui/Cart-Sidebar.vue'
 
 const wsStore = useWebSocketStore()
 
@@ -98,4 +111,29 @@ watch(
     }
   },
 )
+
+const showCartSidebar = ref(false)
+
+function openCartSidebar() {
+  showCartSidebar.value = true
+}
+
+function closeCartSidebar() {
+  showCartSidebar.value = false
+}
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+</style>
