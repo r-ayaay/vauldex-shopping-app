@@ -48,12 +48,19 @@
           </div>
         </div>
         <div class="flex justify-between px-8 pt-4">
-          <button
-            class="bg-gray-100 p-2 rounded-md cursor-pointer hover:bg-gray-300"
-            @click="deleteOrder(order.id)"
+          <span
+            :title="
+              isOlderThan7Days(order.createdAt) ? 'Orders can only be cancelled within 7 days' : ''
+            "
           >
-            Cancel Order
-          </button>
+            <button
+              class="bg-gray-100 p-2 rounded-md cursor-pointer hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+              @click="deleteOrder(order.id)"
+              :disabled="isOlderThan7Days(order.createdAt)"
+            >
+              Cancel Order
+            </button>
+          </span>
           <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>
@@ -154,4 +161,11 @@ watch(
     }
   },
 )
+
+function isOlderThan7Days(dateStr: string) {
+  const createdAt = new Date(dateStr)
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+  return createdAt < sevenDaysAgo
+}
 </script>
