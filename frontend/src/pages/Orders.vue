@@ -36,7 +36,7 @@
             <img
               :src="item.productImageUrl"
               alt="Product Image"
-              class="w-16 h-16 object-cover mr-4"
+              class="w-16 h-16 object-scale-down mr-4"
             />
             <div class="w-full">
               <div>{{ item.productName }}</div>
@@ -48,7 +48,12 @@
           </div>
         </div>
         <div class="flex justify-between px-8 pt-4">
-          <button class="cursor-pointer" @click="deleteOrder(order.id)">Cancel Order</button>
+          <button
+            class="bg-gray-100 p-2 rounded-md cursor-pointer hover:bg-gray-300"
+            @click="deleteOrder(order.id)"
+          >
+            Cancel Order
+          </button>
           <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>
