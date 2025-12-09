@@ -27,11 +27,11 @@
         :id="'order-' + order.id"
         class="border-gray-100 p-4 mb-4 rounded-md bg-white"
       >
-        <div class="flex justify-between border-b pb-2 mb-2">
+        <div class="flex justify-between border-b border-gray-300 pb-2">
           <h2 class="text-xl font-semibold mb-2">Order #{{ order.id }}</h2>
           <h3 class="mb-2">Date: {{ new Date(order.createdAt).toLocaleDateString() }}</h3>
         </div>
-        <div class="border-b pb-2 mb-2">
+        <div class="border-b border-gray-300 p-8">
           <div v-for="item in order.items" :key="item.id" class="flex">
             <img
               :src="item.productImageUrl"
@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between px-8 pt-4">
           <button class="cursor-pointer" @click="deleteOrder(order.id)">Cancel Order</button>
           <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
