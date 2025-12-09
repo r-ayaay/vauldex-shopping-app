@@ -1,7 +1,7 @@
 <template>
   <!-- Sidebar -->
   <div
-    class="absolute right-0 top-0 h-screen w-md bg-white shadow-xl p-4 transform transition-transform duration-300 z-50"
+    class="absolute right-0 top-0 h-screen w-md bg-white shadow-xl p-4 transform transition-transform duration-300 z-50 overflow-y-auto"
     :class="open ? 'translate-x-0' : 'translate-x-full'"
   >
     <button
