@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/Header.vue'
+import Header from '@/components/ui/organisms/Header.vue'
 
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'

@@ -69,8 +69,8 @@ import { useRouter } from 'vue-router'
 
 import { useAuthStore } from '../stores/auth'
 
-import UserIcon from '../components/ui/icons/login/user-icon.vue'
-import LockIcon from '../components/ui/icons/login/lock-icon.vue'
+import UserIcon from '../components/ui/atoms/icons/login/user-icon.vue'
+import LockIcon from '../components/ui/atoms/icons/login/lock-icon.vue'
 
 const username = ref('')
 const password = ref('')

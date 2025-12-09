@@ -62,8 +62,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import api from '@/api/axios'
-import cartIcon from './ui/icons/cart-icon.vue'
-import CartSidebar from './ui/Cart-Sidebar.vue'
+import cartIcon from '../atoms/icons/cart-icon.vue'
+import CartSidebar from './Cart-Sidebar.vue'
 import { useWebSocketStore } from '@/stores/ws'
 
 const { username, onLogout } = defineProps<{ username: string; onLogout: () => void }>()

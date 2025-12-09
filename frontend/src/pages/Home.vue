@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import ProductCard from '../components/ProductCard.vue'
+import ProductCard from '../components/ui/molecules/ProductCard.vue'
 import api from '@/api/axios'
 
 interface Product {
