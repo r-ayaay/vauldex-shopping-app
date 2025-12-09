@@ -1,16 +1,22 @@
 <template>
-  <div class="bg-gray-100 border rounded-2xl p-4">
-    <h2 class="text-lg font-semibold">{{ name }}</h2>
+  <div class="bg-gray-100 border rounded-2xl p-4 flex flex-col">
+    <!-- Product Name -->
+    <h2 class="text-lg font-semibold line-clamp-2 leading-tight h-[3rem] mb-2">
+      {{ name }}
+    </h2>
+
+    <!-- Product Image -->
     <img :src="images[0]" alt="product image" class="w-full h-60 object-contain mb-2" />
-    <p class="text-gray-600">{{ description }}</p>
-    <p class="font-bold mt-1">₱{{ price.toFixed(2) }}</p>
-    <div class="mt-2 flex items-center gap-2">
-      <input
-        type="number"
-        min="1"
-        v-model.number="quantity"
-        class="w-16 border rounded px-2 py-1"
-      />
+
+    <!-- Description -->
+    <p class="text-gray-600 leading-tight line-clamp-2 h-[3rem] mb-2">
+      {{ description }}
+    </p>
+
+    <!-- Quantity + Button -->
+    <div class="flex items-center gap-2 justify-between mt-auto">
+      <!-- Price -->
+      <p class="font-bold">₱{{ price.toFixed(2) }}</p>
       <button
         @click="addToCart"
         class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
