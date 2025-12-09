@@ -1,9 +1,9 @@
 <template>
-  <div class="flex gap-4">
+  <div class="flex gap-4" style="height: calc(100vh - 112px)">
     <!-- Left side: Table of contents -->
-    <div class="w-1/4">
+    <div class="w-1/4 p-4 rounded-md bg-white">
       <h1 class="text-2xl font-bold mb-4">Order History</h1>
-      <ul class="space-y-2 overflow-y-auto" style="height: calc(100vh - 200px)">
+      <ul class="space-y-2 overflow-y-auto">
         <li
           v-for="order in orders"
           :key="order.id"
@@ -20,17 +20,12 @@
     </div>
 
     <!-- Right side: Scrollable orders -->
-    <div
-      id="orders-panel"
-      class="w-3/4 overflow-y-auto relative"
-      style="height: calc(100vh - 150px)"
-      v-if="orders.length > 0"
-    >
+    <div id="orders-panel" class="w-3/4 overflow-y-auto relative" v-if="orders.length > 0">
       <div
         v-for="order in orders"
         :key="order.id"
         :id="'order-' + order.id"
-        class="border p-4 mb-4 rounded"
+        class="border-gray-100 p-4 mb-4 rounded-md bg-white"
       >
         <div class="flex justify-between border-b pb-2 mb-2">
           <h2 class="text-xl font-semibold mb-2">Order #{{ order.id }}</h2>

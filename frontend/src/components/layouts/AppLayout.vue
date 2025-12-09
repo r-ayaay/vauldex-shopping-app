@@ -5,7 +5,7 @@
   </div>
 
   <!-- Main content -->
-  <main class="px-6 md:px-8 pt-6 bg-[#f5f4f7]">
+  <main class="px-6 md:px-8 py-6 bg-[#f5f4f7]">
     <RouterView />
   </main>
 </template>
