@@ -12,7 +12,7 @@
 
     <div class="flex justify-between">
       <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
-      <div class="font-semibold mb-4">Total: ₱{{ selectedTotal }}</div>
+      <div class="font-semibold mb-4">Total: ₱{{ selectedTotal.toFixed(2) }}</div>
     </div>
 
     <div>
