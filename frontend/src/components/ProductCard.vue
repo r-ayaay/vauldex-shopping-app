@@ -34,7 +34,7 @@
     <!-- FULLSCREEN LIGHTBOX -->
     <div
       v-if="showModal"
-      class="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50"
+      class="fixed inset-0 bg-black/85 flex flex-col items-center justify-center z-50"
       @click.self="closeModal"
     >
       <!-- Close Button -->
