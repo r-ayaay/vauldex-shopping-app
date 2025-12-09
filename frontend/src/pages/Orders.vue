@@ -47,14 +47,14 @@
               <div>{{ item.productName }}</div>
               <div class="flex justify-between">
                 <div>x{{ item.quantity }}</div>
-                <div>${{ item.productPrice }}</div>
+                <div>₱{{ item.productPrice }}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="flex justify-between">
           <button @click="deleteOrder(order.id)">Cancel Order</button>
-          <p class="mb-2">Total Amount: ${{ order.totalAmount.toFixed(2) }}</p>
+          <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>
     </div>

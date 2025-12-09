@@ -11,7 +11,7 @@
     <div class="flex justify-between">
       <h2 class="text-xl font-semibold mb-4">Your Cart</h2>
 
-      <div class="font-semibold mb-4">Total: {{ selectedTotal }}</div>
+      <div class="font-semibold mb-4">Total: ₱{{ selectedTotal }}</div>
     </div>
 
     <div>
@@ -30,8 +30,9 @@
           </h3>
 
           <div class="flex justify-between">
-            <div>{{ item.productPrice }}</div>
+            <div>₱ {{ item.productPrice }}</div>
             <input
+              class="w-1/2"
               type="number"
               v-model="item.quantity"
               @change="updateCartItemQuantity(item.id, item.quantity)"
