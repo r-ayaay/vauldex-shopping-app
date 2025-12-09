@@ -4,7 +4,10 @@
     class="absolute right-0 top-0 h-screen w-md bg-white shadow-xl p-4 transform transition-transform duration-300 z-50"
     :class="open ? 'translate-x-0' : 'translate-x-full'"
   >
-    <button class="mb-4 text-gray-500 hover:text-black text-right" @click="$emit('close')">
+    <button
+      class="mb-4 text-gray-500 hover:text-black text-right cursor-pointer"
+      @click="$emit('close')"
+    >
       Close
     </button>
 
@@ -43,7 +46,7 @@
     </div>
 
     <button
-      class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+      class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer"
       @click="checkoutSelected"
       :disabled="selectedIds.length === 0"
     >

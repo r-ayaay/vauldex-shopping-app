@@ -38,7 +38,10 @@
       @click.self="closeModal"
     >
       <!-- Close Button -->
-      <button @click="closeModal" class="absolute top-6 right-6 text-white text-3xl font-bold">
+      <button
+        @click="closeModal"
+        class="absolute top-6 right-6 text-white text-3xl font-bold cursor-pointer"
+      >
         ✕
       </button>
 
@@ -54,7 +57,7 @@
       <button
         v-if="images.length > 1"
         @click.stop="prevImage"
-        class="absolute left-6 text-white text-4xl font-bold select-none"
+        class="absolute left-6 text-white text-4xl font-bold select-none cursor-pointer"
       >
         ‹
       </button>
@@ -62,7 +65,7 @@
       <button
         v-if="images.length > 1"
         @click.stop="nextImage"
-        class="absolute right-6 text-white text-4xl font-bold select-none"
+        class="absolute right-6 text-white text-4xl font-bold select-none cursor-pointe"
       >
         ›
       </button>

@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="flex justify-between">
-          <button @click="deleteOrder(order.id)">Cancel Order</button>
+          <button class="cursor-pointer" @click="deleteOrder(order.id)">Cancel Order</button>
           <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>

@@ -31,7 +31,7 @@
         >
           <router-link :to="{ name: 'orders' }">
             <button
-              class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C]"
+              class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C] cursor-pointer"
             >
               Orders
             </button>
@@ -39,7 +39,7 @@
           <button
             label="Logout"
             @click="logoutHandler"
-            class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C]"
+            class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C] cursor-pointer"
           >
             Logout
           </button>
