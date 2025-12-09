@@ -22,8 +22,13 @@ class OrderController(private val orderService: OrderService, private val authen
     }
 
 
-    @DeleteMapping("/cancel/{orderId}")
+    @PutMapping("/cancel/{orderId}")
     fun cancelOrder(@PathVariable orderId: Long) {
         orderService.cancelOrder(orderId)
+    }
+
+    @PutMapping("/complete/{orderId}")
+    fun completeOrder(@PathVariable orderId: Long) {
+        orderService.completeOrder(orderId)
     }
 }

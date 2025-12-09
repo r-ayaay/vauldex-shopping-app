@@ -3,9 +3,35 @@
     <!-- Left side: Table of contents -->
     <div class="w-1/4 p-4 rounded-md bg-white">
       <h1 class="text-2xl font-bold mb-4">Order History</h1>
+      <div class="flex gap-2 justify-between mb-4">
+        <button
+          class="cursor-pointer"
+          :class="selectedStatus === 'PENDING' ? 'font-bold underline' : ''"
+          @click="selectedStatus = 'PENDING'"
+        >
+          Pending
+        </button>
+
+        <button
+          class="cursor-pointer"
+          :class="selectedStatus === 'COMPLETED' ? 'font-bold underline' : ''"
+          @click="selectedStatus = 'COMPLETED'"
+        >
+          Completed
+        </button>
+
+        <button
+          class="cursor-pointer"
+          :class="selectedStatus === 'CANCELLED' ? 'font-bold underline' : ''"
+          @click="selectedStatus = 'CANCELLED'"
+        >
+          Cancelled
+        </button>
+      </div>
+
       <ul class="space-y-2 overflow-y-auto">
         <li
-          v-for="order in orders"
+          v-for="order in filteredOrders"
           :key="order.id"
           @click="scrollToOrder(order.id)"
           :class="[
@@ -22,7 +48,7 @@
     <!-- Right side: Scrollable orders -->
     <div id="orders-panel" class="w-3/4 overflow-y-auto relative" v-if="orders.length > 0">
       <div
-        v-for="order in orders"
+        v-for="order in filteredOrders"
         :key="order.id"
         :id="'order-' + order.id"
         class="border-gray-100 p-4 mb-4 rounded-md bg-white"
@@ -48,19 +74,30 @@
           </div>
         </div>
         <div class="flex justify-between px-8 pt-4">
-          <span
-            :title="
-              isOlderThan7Days(order.createdAt) ? 'Orders can only be cancelled within 7 days' : ''
-            "
-          >
+          <div class="flex gap-4">
+            <span
+              :title="
+                isOlderThan7Days(order.createdAt)
+                  ? 'Orders can only be cancelled within 7 days'
+                  : ''
+              "
+            >
+              <button
+                class="bg-gray-100 p-2 rounded-md cursor-pointer hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+                @click="deleteOrder(order.id)"
+                :disabled="isOlderThan7Days(order.createdAt)"
+              >
+                Cancel Order
+              </button>
+            </span>
+
             <button
               class="bg-gray-100 p-2 rounded-md cursor-pointer hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
-              @click="deleteOrder(order.id)"
-              :disabled="isOlderThan7Days(order.createdAt)"
+              @click="completeOrder(order.id)"
             >
-              Cancel Order
+              Complete Order
             </button>
-          </span>
+          </div>
           <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>
@@ -69,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import api from '@/api/axios'
 import { useWebSocketStore } from '@/stores/ws'
 
@@ -87,6 +124,7 @@ interface Order {
   createdAt: string
   totalAmount: number
   items: OrderItem[]
+  status: 'PENDING' | 'COMPLETED' | 'CANCELLED'
 }
 
 const orders = ref<Order[]>([])
@@ -97,6 +135,7 @@ const fetchOrders = async () => {
   try {
     const res = await api.get<Order[]>('/api/orders')
     orders.value = res.data
+    console.log('Fetched orders', orders.value)
   } catch (err) {
     console.error(err)
   }
@@ -104,8 +143,17 @@ const fetchOrders = async () => {
 
 async function deleteOrder(orderId: number) {
   try {
-    await api.delete(`/api/orders/cancel/${orderId}`)
+    await api.put(`/api/orders/cancel/${orderId}`)
     console.log(`Deleted order ${orderId}`)
+  } catch (err) {
+    console.error('Error deleting order', err)
+  }
+}
+
+async function completeOrder(orderId: number) {
+  try {
+    await api.put(`/api/orders/complete/${orderId}`)
+    console.log(`Completed order ${orderId}`)
   } catch (err) {
     console.error('Error deleting order', err)
   }
@@ -168,4 +216,8 @@ function isOlderThan7Days(dateStr: string) {
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
   return createdAt < sevenDaysAgo
 }
+
+const selectedStatus = ref<'PENDING' | 'COMPLETED' | 'CANCELLED'>('PENDING')
+
+const filteredOrders = computed(() => orders.value.filter((o) => o.status === selectedStatus.value))
 </script>

@@ -17,6 +17,8 @@ data class Order(
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
+    var status: String = "PENDING",
+
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val items: List<OrderItem> = mutableListOf()
+    val items: List<OrderItem> = mutableListOf(),
 )

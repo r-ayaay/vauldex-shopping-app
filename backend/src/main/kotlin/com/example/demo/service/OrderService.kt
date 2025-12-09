@@ -53,7 +53,7 @@ class OrderService(
         val order = orderRepository.findById(orderId).orElseThrow { RuntimeException("Order not found") }
 
         if (order.createdAt.isBefore(LocalDateTime.now().minusDays(7))) {
-            throw RuntimeException("Orders can only be cancelled if created at least 7 days ago")
+            throw RuntimeException("Orders can only be cancelled if created less than 7 days ago")
         }
 
         val event = WebSocketEvent(
@@ -63,11 +63,33 @@ class OrderService(
             )
         )
 
+        socketHandler.broadcast(event)
+
+        order.status = "CANCELLED"
+
+        orderRepository.save(order)
+    }
+
+    @Transactional
+    fun completeOrder(orderId: Long) {
+        val order = orderRepository.findById(orderId).orElseThrow { RuntimeException("Order not found") }
+
+        if (order.createdAt.isBefore(LocalDateTime.now().minusDays(7))) {
+            throw RuntimeException("Orders can only be completed if created at least 7 days ago")
+        }
+
+        val event = WebSocketEvent(
+            type = "ORDER_COMPLETED",
+            payload = mapOf(
+                "orderId" to order.id,
+            )
+        )
 
         socketHandler.broadcast(event)
 
+        order.status = "COMPLETED"
 
-        orderRepository.delete(order)
+        orderRepository.save(order)
     }
 
     fun getOrdersDTOForUser(userId: Long): List<OrderResponseDTO> {
@@ -80,14 +102,15 @@ class OrderService(
                     productName = item.product.name,
                     productPrice = item.product.price,
                     productImageUrl = item.product.images.firstOrNull()?.url,
-                    quantity = item.quantity
+                    quantity = item.quantity,
                 )
             }
             OrderResponseDTO(
                 id = order.id,
                 createdAt = order.createdAt,
                 totalAmount = order.totalAmount,
-                items = itemsDTO
+                items = itemsDTO,
+                status = order.status
             )
         }
     }
@@ -133,7 +156,8 @@ class OrderService(
             id = order.id,
             createdAt = order.createdAt,
             totalAmount = order.totalAmount,
-            items = itemsDTO
+            items = itemsDTO,
+            status = "PENDING"
         )
     }
 
