@@ -550,6 +550,9 @@
   .bg-\[\#1f1f21\] {
     background-color: #1f1f21;
   }
+  .bg-\[\#f5f4f7\] {
+    background-color: #f5f4f7;
+  }
   .bg-black {
     background-color: var(--color-black);
   }

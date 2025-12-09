@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 border rounded-2xl p-4 flex flex-col">
+  <div class="bg-white rounded-2xl p-4 flex flex-col">
     <!-- Product Name -->
     <h2 class="text-lg font-semibold line-clamp-2 leading-tight h-[3rem] mb-2">
       {{ name }}
