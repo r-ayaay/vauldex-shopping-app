@@ -18,7 +18,6 @@
       <!-- User dropdown -->
       <div class="relative" ref="userDropdownRef">
         <button
-          :label="username"
           @click="toggleUserDropdown"
           class="flex items-center gap-2 px-3 py-1.5 text-[#1f1f21] rounded-md hover:bg-[#1f1f21] hover:text-white focus:ring-2 focus:ring-[#1C274C]/40 transition-all font-medium cursor-pointer"
         >
@@ -31,15 +30,14 @@
         >
           <router-link :to="{ name: 'orders' }">
             <button
-              class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C] cursor-pointer"
+              class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] cursor-pointer"
             >
               Orders
             </button>
           </router-link>
           <button
-            label="Logout"
             @click="logoutHandler"
-            class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] focus:bg-[#e3e7f3] transition-colors stroke-[#1C274C] cursor-pointer"
+            class="flex w-full items-center gap-2 px-4 py-2 text-[#1C274C] hover:bg-[#f0f2f8] cursor-pointer"
           >
             Logout
           </button>
@@ -48,6 +46,7 @@
     </div>
   </header>
 
+  <!-- Overlay -->
   <Transition name="fade">
     <div
       v-if="showCartSidebar"
@@ -64,11 +63,14 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import api from '@/api/axios'
 import cartIcon from './ui/icons/cart-icon.vue'
+import CartSidebar from './ui/Cart-Sidebar.vue'
+import { useWebSocketStore } from '@/stores/ws'
 
 const { username, onLogout } = defineProps<{ username: string; onLogout: () => void }>()
-
 const userDropdownOpen = ref(false)
 const userDropdownRef = ref<HTMLElement | null>(null)
+const productCount = ref<number>(0)
+const showCartSidebar = ref(false)
 
 function toggleUserDropdown() {
   userDropdownOpen.value = !userDropdownOpen.value
@@ -84,31 +86,33 @@ function handleClickOutside(e: MouseEvent) {
     userDropdownOpen.value = false
 }
 
-const productCount = ref<number>(0)
-
-const fetchProductCount = async () => {
+async function fetchProductCount() {
   try {
     const res = await api.get<number>('/api/cart/count')
     productCount.value = res.data
-    console.log('Items in cart:', productCount.value)
   } catch (err) {
     console.error(err)
   }
 }
 
-onMounted(fetchProductCount)
+// Sidebar open/close handlers with body scroll lock
+function openCartSidebar() {
+  showCartSidebar.value = true
+  document.body.classList.add('overflow-hidden')
+}
 
-// Lifecycle
+function closeCartSidebar() {
+  showCartSidebar.value = false
+  document.body.classList.remove('overflow-hidden')
+}
+
 onMounted(() => {
+  fetchProductCount()
   document.addEventListener('mousedown', handleClickOutside)
 })
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
 
-import { useWebSocketStore } from '@/stores/ws'
-import CartSidebar from './ui/Cart-Sidebar.vue'
-
 const wsStore = useWebSocketStore()
-
 watch(
   () => wsStore.events,
   (events) => {
@@ -118,16 +122,6 @@ watch(
     }
   },
 )
-
-const showCartSidebar = ref(false)
-
-function openCartSidebar() {
-  showCartSidebar.value = true
-}
-
-function closeCartSidebar() {
-  showCartSidebar.value = false
-}
 </script>
 
 <style>
