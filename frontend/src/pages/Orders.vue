@@ -73,8 +73,8 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-between px-8 pt-4">
-          <div class="flex gap-4">
+        <div class="flex items-center justify-between px-8 pt-4">
+          <div class="flex gap-4" v-if="order.status == 'PENDING'">
             <span
               :title="
                 isOlderThan7Days(order.createdAt)
@@ -98,7 +98,8 @@
               Complete Order
             </button>
           </div>
-          <p class="mb-2">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
+          <div v-else></div>
+          <p class="">Total Amount: ₱{{ order.totalAmount.toFixed(2) }}</p>
         </div>
       </div>
     </div>
